@@ -34,9 +34,9 @@ This guide explains how to take the application from your "HP EliteBook" to a 24
 On your HP EliteBook (Linux Mint), update your `.env` file with the standard Node.js names:
 ```bash
 # .env
-SUPABASE_URL=your_remote_url
-SUPABASE_ANON_KEY=your_remote_key
-ORCHESTRATOR_SECRET=tu_clave_secreta_super_segura
+SUPABASE_URL=https://pxmjbpwfiodhblrezhbm.supabase.co
+SUPABASE_ANON_KEY=TU_ANON_KEY_DE_SUPABASE
+ORCHESTRATOR_SECRET=TU_CLAVE_PARA_EL_ESP32
 PORT=3000
 ```
 Now, when you run `node server.js`, the local sensors will push data to the remote cloud, and they will appear instantly on the neighbor's phone.
