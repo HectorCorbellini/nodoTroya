@@ -20,13 +20,13 @@ This guide explains how to take the application from your "HP EliteBook" to a 24
    insert into sensors (name, value) values ('humidity', 65);
    ```
    </details>
-- [ ] **Enable Realtime**: Go to **Table Editor** -> `sensors` -> **Realtime** (Enable the toggle).
+- [x] **Enable Realtime**: Go to **Table Editor** -> `sensors` -> **Realtime** (Enable the toggle).
 - [x] **Get API Keys**: Copy `Project URL` and `anon public` key.
 
 ## 2. Netlify Setup (Frontend)
-- [ ] **Connect Repo**: Connect this repository to your [Netlify](https://netlify.com) account.
-- [ ] **Env Vars**: Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in Netlify settings.
-- [ ] **Deploy**: Click **Deploy** and get your public URL.
+- [x] **Connect Repo**: Connect this repository to your [Netlify](https://netlify.com) account.
+- [x] **Env Vars**: Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in Netlify settings.
+- [x] **Deploy**: Click **Deploy** and get your public URL.
 
 On your HP EliteBook (Linux Mint), update your `.env` file with the standard Node.js names:
 ```bash
