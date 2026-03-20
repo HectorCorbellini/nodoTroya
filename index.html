@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Nodo Nueva Troya - Catálogo Digital de Soberanía Alimentaria y Hardware Libre en Montevideo, Uruguay.">
+    <meta name="theme-color" content="#1b5e20">
+    <title>NODO NUEVA TROYA | Catálogo Digital</title>
+    <link rel="stylesheet" href="./style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <div class="nodo-header">
+                <h1>Nodo Nueva Troya</h1>
+                <p>Estado del Sistema: <span class="status-online">Activo</span></p>
+            </div>
+
+            <section class="agro-data">
+                <h3>Monitoreo de Suelo (Prototipo)</h3>
+                <div class="sensor-display">
+                    <p>Humedad: <span class="sensor-value">--</span> %</p>
+                </div>
+            </section>
+
+            <section class="catalogo-rapido">
+                <a id="whatsapp-link" href="#" class="btn btn-primary btn-whatsapp">Consultar Catálogo</a>
+                <a href="#catalogo" class="btn btn-secondary">Ver Catálogo Completo</a>
+            </section>
+        </div>
+    </header>
+
+    <section id="qr-section" class="qr-container">
+        <div class="qr-card">
+            <h2>Acceso Directo</h2>
+            <p>Escanea para sumarte a la red de vecinos</p>
+            <canvas id="qr-canvas"></canvas>
+            <p class="qr-info">Escanea con tu cámara para WhatsApp</p>
+        </div>
+    </section>
+
+    <main id="catalogo">
+        <div class="container">
+            <h2 class="section-title">Nuestros Activos</h2>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="alimentos">Soberanía Alimentaria</button>
+                <button class="tab-btn" data-tab="tecnologia">Hardware Libre</button>
+                <button class="tab-btn" data-tab="grafica">Comunicación</button>
+            </div>
+
+            <div id="catalog-grid" class="catalog-grid">
+                <!-- Items will be injected here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Nodo Nueva Troya - Montevideo, Uruguay</p>
+        <p class="footer-msg">"Táctica del Nodo de Investigación"</p>
+    </footer>
+
+    <script type="module" src="./main.js"></script>
+</body>
+
+</html>
