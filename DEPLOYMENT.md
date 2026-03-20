@@ -6,30 +6,27 @@ This guide explains how to take the application from your "HP EliteBook" to a 24
 > **Netlify es para el Sitio Estático.** El archivo `server.js` es exclusivo para tu **Orquestador Local** (el puente físico) y NO se despliega en Netlify.
 
 ## 1. Supabase Setup (Database)
-1. Go to [supabase.com](https://supabase.com) and create a new project.
-2. Under **SQL Editor**, run the following query to create your sensor table:
+- [x] **Create Project**: Go to [supabase.com](https://supabase.com) and create a new project.
+- [x] **Initialize Schema**: Run the SQL query to create the `sensors` table.
+   <details>
+   <summary>Ver SQL Script</summary>
+
    ```sql
    create table sensors (
      name text primary key,
      value int4,
      updated_at timestamp default now()
    );
-   
-   -- Insert initial dummy data
    insert into sensors (name, value) values ('humidity', 65);
    ```
-3. Go to **Table Editor** -> `sensors` -> **Realtime** (Enable the toggle) to allow live updates on the phone.
-4. Go to **Project Settings** -> **API** and copy:
-   - `Project URL` (This is your `VITE_SUPABASE_URL`)
-   - `anon public` Key (This is your `VITE_SUPABASE_ANON_KEY`)
+   </details>
+- [ ] **Enable Realtime**: Go to **Table Editor** -> `sensors` -> **Realtime** (Enable the toggle).
+- [x] **Get API Keys**: Copy `Project URL` and `anon public` key.
 
 ## 2. Netlify Setup (Frontend)
-1. Connect this repository to your [Netlify](https://netlify.com) account.
-2. During the setup, go to **Site configuration** -> **Environment variables**.
-3. Add the two variables you copied from Supabase (must use `VITE_` prefix for frontend access):
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
-4. Click **Deploy**. Your site will be live at a URL like `https://nodo-nueva-troya.netlify.app`.
+- [ ] **Connect Repo**: Connect this repository to your [Netlify](https://netlify.com) account.
+- [ ] **Env Vars**: Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in Netlify settings.
+- [ ] **Deploy**: Click **Deploy** and get your public URL.
 
 On your HP EliteBook (Linux Mint), update your `.env` file with the standard Node.js names:
 ```bash
