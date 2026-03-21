@@ -124,30 +124,35 @@ function initWhatsApp() {
 }
 
 
+function getCategoryLabel(category) {
+    const labels = {
+        'alimentos': 'Soberanía Alimentaria',
+        'tecnologia': 'Hardware Libre',
+        'grafica': 'Comunicación'
+    };
+    return labels[category] || category;
+}
+
+function createProductCard(product) {
+    const categoryLabel = getCategoryLabel(product.category);
+    return `
+    <div class="product-card">
+        <div class="product-img" style="background-image: url('${product.img}')"></div>
+        <div class="product-info">
+            <div class="product-category">${categoryLabel}</div>
+            <h3 class="product-name">${product.name}</h3>
+            <p>${product.description}</p>
+            <div class="product-price">${product.price}</div>
+        </div>
+    </div>
+    `;
+}
+
 function renderProducts(category) {
     if (!catalogGrid) return;
 
-    const filtered = products.filter(p => p.category === category);
-    catalogGrid.innerHTML = filtered.map(p => {
-        let categoryLabel = '';
-        switch (p.category) {
-            case 'alimentos': categoryLabel = 'Soberanía Alimentaria'; break;
-            case 'tecnologia': categoryLabel = 'Hardware Libre'; break;
-            case 'grafica': categoryLabel = 'Comunicación'; break;
-        }
-
-        return `
-        <div class="product-card">
-            <div class="product-img" style="background-image: url('${p.img}')"></div>
-            <div class="product-info">
-                <div class="product-category">${categoryLabel}</div>
-                <h3 class="product-name">${p.name}</h3>
-                <p>${p.description}</p>
-                <div class="product-price">${p.price}</div>
-            </div>
-        </div>
-        `;
-    }).join('');
+    const filteredProducts = products.filter(p => p.category === category);
+    catalogGrid.innerHTML = filteredProducts.map(p => createProductCard(p)).join('');
 }
 
 function initTabs() {
