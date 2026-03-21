@@ -22,12 +22,21 @@
                 <p>Estado del Sistema: <span class="status-online">Activo</span></p>
             </div>
 
-            <section class="agro-data">
-                <h3>Monitoreo de Suelo (Prototipo)</h3>
-                <div class="sensor-display">
-                    <p>Humedad: <span class="sensor-value">--</span> %</p>
-                </div>
+            <section id="agro-monitor" style="border: 1px solid #2ecc71; padding: 15px; border-radius: 8px; margin-top: 20px; background: rgba(255,255,255,0.1);">
+                <h3 style="color: #2ecc71; margin-top: 0;">📡 Monitoreo en Vivo (Prototipo)</h3>
+                <p>Suelo en Nueva Troya: <strong id="humedad-val">--%</strong></p>
+                <p>Estado de Cultivo: <span id="status-val">Esperando datos...</span></p>
             </section>
+
+            <script>
+                // Simulación mientras no hay sensor conectado
+                fetch('/api/status')
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('humedad-val').innerText = "65%";
+                        document.getElementById('status-val').innerText = "Óptimo (Simulado)";
+                    });
+            </script>
 
             <section class="catalogo-rapido">
                 <a id="whatsapp-link" href="#" class="btn btn-primary btn-whatsapp">Ver Catálogo</a>
