@@ -69,14 +69,26 @@ app.post('/api/sensor', async (req, res) => {
         return res.status(401).json({ error: 'No autorizado' });
     }
 
+    // Validación de entrada
+    if (!name || typeof name !== 'string' || name.trim().length === 0) {
+        return res.status(400).json({ error: 'Nombre de sensor inválido o faltante' });
+    }
+
+    if (value === undefined || value === null || isNaN(Number(value))) {
+        return res.status(400).json({ error: 'Valor de sensor debe ser un número válido' });
+    }
+
+    const sensorName = name.trim();
+    const sensorValue = Number(value);
+
     const { error } = await supabase
         .from('sensors')
-        .update({ value, updated_at: new Date() })
-        .eq('name', name);
+        .update({ value: sensorValue, updated_at: new Date() })
+        .eq('name', sensorName);
 
     if (error) return res.status(500).json({ error: error.message });
 
-    res.json({ status: 'ok', msg: `Sensor ${name} actualizado` });
+    res.json({ status: 'ok', msg: `Sensor ${sensorName} actualizado` });
 });
 
 // --- ARCHIVOS ESTÁTICOS ---

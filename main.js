@@ -1,11 +1,20 @@
 import QRCode from 'qrcode';
 import { supabase } from './supabase.js';
 import { products } from './data/products.js';
+import { config } from './config.js';
 
 // CONFIGURATION
-const WHATSAPP_NUMBER = '59891633183'; // Updated
-const WHATSAPP_MESSAGE = 'Hola Enrique, vengo del QR de Nueva Troya. Me interesa conocer el catálogo de productos.';
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const WHATSAPP_URL = `https://wa.me/${config.whatsapp.number}?text=${encodeURIComponent(config.whatsapp.message)}`;
+
+// SECURITY UTILITIES
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
 // DOM ELEMENTS
 const whatsappBtn = document.getElementById('whatsapp-link');
@@ -85,24 +94,52 @@ function getCategoryLabel(category) {
 
 function createProductCard(product) {
     const categoryLabel = getCategoryLabel(product.category);
-    return `
-    <div class="product-card">
-        <div class="product-img" style="background-image: url('${product.img}')"></div>
-        <div class="product-info">
-            <div class="product-category">${categoryLabel}</div>
-            <h3 class="product-name">${product.name}</h3>
-            <p>${product.description}</p>
-            <div class="product-price">${product.price}</div>
-        </div>
-    </div>
-    `;
+    
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    
+    const img = document.createElement('div');
+    img.className = 'product-img';
+    img.style.backgroundImage = `url('${escapeHtml(product.img)}')`;
+    
+    const info = document.createElement('div');
+    info.className = 'product-info';
+    
+    const category = document.createElement('div');
+    category.className = 'product-category';
+    category.textContent = categoryLabel;
+    
+    const name = document.createElement('h3');
+    name.className = 'product-name';
+    name.textContent = product.name;
+    
+    const description = document.createElement('p');
+    description.textContent = product.description;
+    
+    const price = document.createElement('div');
+    price.className = 'product-price';
+    price.textContent = product.price;
+    
+    info.appendChild(category);
+    info.appendChild(name);
+    info.appendChild(description);
+    info.appendChild(price);
+    
+    card.appendChild(img);
+    card.appendChild(info);
+    
+    return card;
 }
 
 function renderProducts(category) {
     if (!catalogGrid) return;
 
     const filteredProducts = products.filter(p => p.category === category);
-    catalogGrid.innerHTML = filteredProducts.map(p => createProductCard(p)).join('');
+    catalogGrid.innerHTML = '';
+    
+    filteredProducts.forEach(product => {
+        catalogGrid.appendChild(createProductCard(product));
+    });
 }
 
 function initTabs() {

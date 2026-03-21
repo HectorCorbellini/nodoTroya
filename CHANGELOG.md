@@ -5,6 +5,8 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 ## [0.1.1] - 2026-03-20
 
 ### Mejorado
+- **Organización de Configuración**: Movidas constantes de WhatsApp desde `main.js` a módulo `config.js`. El número y mensaje de WhatsApp ahora viven en un objeto de configuración estructurado, separando configuración de lógica de presentación.
+- **Arquitectura de Datos**: Separación de datos de productos de la lógica de presentación. Movidos desde `main.js` hardcodeado a módulo dedicado `data/products.js`.
 - **Refactor de Activos**: Reubicación de imágenes a `/public/images/` para optimizar la carga y organización.
 - **Experiencia de Usuario (UX)**: Implementación de enlace de WhatsApp inteligente con mensaje personalizado para "Enrique".
 - **SEO y Móvil**: Inclusión de meta tags (`description`, `theme-color`) y validación de `viewport`.
@@ -12,6 +14,13 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 - **Limpieza**: Eliminación de código muerto (CSS no usado, scripts de prueba y archivos temporales/borradores).
 
 ### Corregido
+- **CSS Muerto**: Eliminada clase `.glitch-title` del media query. No existe en HTML ni JS, era código sin funcionalidad que aumentaba el peso del CSS.
+- **CSS DRY**: Eliminación de `@keyframes fadeIn` duplicado. Aparecía en líneas 121 y 314 con idénticos valores, generando código repetido sin funcionalidad adicional.
+- **Dependencias**: Movido `qrcode` de `dependencies` a `devDependencies` ya que se usa solo en cliente via Vite, no en servidor Node.
+- **CSS Muerto**: Eliminadas clases no utilizadas `.sensor-card`, `.sensor-label`, `.sensor-status`, `.status-optimal` que aumentaban el peso del CSS sin aportar funcionalidad.
+- **CSS DRY**: Eliminación de bloques `.hero` y `.hero::after` duplicados. El código estaba repetido completamente dos veces (líneas ~90-110 y ~115-135), generando ruido y riesgo de inconsistencia al editar.
+- **Validación de API**: Agregada validación de entrada en POST `/api/sensor`. Antes `name` y `value` se usaban directamente sin verificar, risking UPDATE sin WHERE efectivo. Ahora valida que `name` sea string no vacío y `value` sea número válido antes de tocar la base de datos.
+- **Seguridad XSS**: Eliminación de interpolación directa en innerHTML. El patrón anterior `catalogGrid.innerHTML = filtered.map(p => \`<h3>${p.name}</h3>\`)` era vulnerable si los productos provinieran de fuentes externas. Implementado DOM manipulation seguro con `textContent` para datos textuales y `escapeHtml()` para URLs, previniendo ataques de inyección de código.
 - **Sincronización de Variables**: Refactorizado `supabase.js` para soportar nombres estándar de Node.js (`SUPABASE_URL`) en local y prefijos de Vite (`VITE_`) en la nube.
 - **Bug de Entorno**: Corregido error en `supabase.js` que causaba fallos al ejecutar el servidor en entornos Node.js.
 - **Higiene DB**: Eliminación de tablas redundantes y activación de Realtime en el entorno de producción.
