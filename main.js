@@ -8,7 +8,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 
 // DOM ELEMENTS
 const whatsappBtn = document.getElementById('whatsapp-link');
-const qrCanvas = document.getElementById('qr-canvas');
+const whatsappCtaBtn = document.getElementById('whatsapp-cta-link');
 const catalogGrid = document.getElementById('catalog-grid');
 const tabBtns = document.querySelectorAll('.tab-btn');
 
@@ -67,7 +67,6 @@ const products = [
 // INITIALIZATION
 document.addEventListener('DOMContentLoaded', () => {
     initWhatsApp();
-    generateQR();
     renderProducts('alimentos');
     initTabs();
     initSensors(); // New for Phase 3
@@ -119,25 +118,11 @@ function initWhatsApp() {
     if (whatsappBtn) {
         whatsappBtn.href = WHATSAPP_URL;
     }
-}
-
-async function generateQR() {
-    if (qrCanvas) {
-        try {
-            await QRCode.toCanvas(qrCanvas, WHATSAPP_URL, {
-                width: 250,
-                margin: 2,
-                color: {
-                    dark: '#1b5e20',
-                    light: '#ffffff'
-                }
-            });
-            console.log('QR Generated Successfully');
-        } catch (err) {
-            console.error(err);
-        }
+    if (whatsappCtaBtn) {
+        whatsappCtaBtn.href = WHATSAPP_URL;
     }
 }
+
 
 function renderProducts(category) {
     if (!catalogGrid) return;

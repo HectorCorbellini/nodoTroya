@@ -14,7 +14,8 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 ### Corregido
 - **Sincronización de Variables**: Refactorizado `supabase.js` para soportar nombres estándar de Node.js (`SUPABASE_URL`) en local y prefijos de Vite (`VITE_`) en la nube.
 - **Bug de Entorno**: Corregido error en `supabase.js` que causaba fallos al ejecutar el servidor en entornos Node.js.
-- **Prevención de Caché**: Implementación de headers en `server.js` para asegurar la carga de activos frescos durante las pruebas.
+- **Higiene DB**: Eliminación de tablas redundantes y activación de Realtime en el entorno de producción.
+- **Puesta en Marcha**: Inicialización exitosa de la tabla `sensors` en Supabase.
 - **Robustez de API**: Blindaje contra crashes y restauración de `express.json()`.
 - **Seguridad**: Eliminación de claves por defecto en `.env.example` y documentación de despliegue.
 - **Optimización de Middleware**: Reordenamiento de rutas de API sobre archivos estáticos para evitar interferencias.

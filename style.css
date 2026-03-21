@@ -33,9 +33,10 @@ body {
 /* DASHBOARD DE RESILIENCIA */
 .nodo-header h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
     margin-bottom: 0.5rem;
     color: white;
+    line-height: 1.1;
 }
 
 .status-online {
@@ -238,8 +239,8 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* QR SECTION */
-.qr-container {
+/* CONTACT CTA SECTION */
+.contact-cta {
     padding: 5rem 2rem;
     display: flex;
     justify-content: center;
@@ -248,7 +249,7 @@ body {
     position: relative;
 }
 
-.qr-card {
+.cta-card {
     background: var(--glass);
     backdrop-filter: blur(10px);
     padding: 3rem;
@@ -256,18 +257,28 @@ body {
     text-align: center;
     box-shadow: var(--shadow);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    max-width: 400px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-#qr-canvas {
-    width: 250px !important;
-    height: 250px !important;
-    margin: 2rem 0;
-}
-
-.qr-card h2 {
+.cta-card h2 {
     color: var(--primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.cta-card p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    color: var(--secondary);
+}
+
+.btn-whatsapp-large {
+    background: #25d366 !important;
+    color: white !important;
+    font-size: 1.2rem;
+    padding: 1.2rem 3rem !important;
+    display: inline-block;
 }
 
 /* CATALOG SECTION */
@@ -382,11 +393,29 @@ footer {
 }
 
 @media (max-width: 768px) {
+    .nodo-header h1 {
+        font-size: 3rem;
+    }
+
     .glitch-title {
         font-size: 3rem;
     }
 
     .glitch-title span {
         font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nodo-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content {
+        padding: 0 1rem;
+    }
+
+    .sensor-display p {
+        font-size: 2.5rem;
     }
 }
