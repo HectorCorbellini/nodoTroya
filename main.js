@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initWhatsApp();
     renderProducts('alimentos');
     initTabs();
-    initSensors(); // New for Phase 3
+    initSensors();
 });
 
 async function initSensors() {
