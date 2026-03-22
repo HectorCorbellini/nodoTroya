@@ -1,6 +1,5 @@
 import QRCode from 'qrcode';
 import { supabase } from './supabase.js';
-import { products } from './data/products.js';
 import { config } from './config.js';
 
 // CONFIGURATION
@@ -16,6 +15,10 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
+// PRODUCTS DATA (from Supabase or fallback)
+let products = [];
+let productsLoaded = false;
+
 // DOM ELEMENTS
 const whatsappBtn = document.getElementById('whatsapp-link');
 const whatsappCtaBtn = document.getElementById('whatsapp-cta-link');
@@ -26,7 +29,7 @@ const tabBtns = document.querySelectorAll('.tab-btn');
 // INITIALIZATION
 document.addEventListener('DOMContentLoaded', () => {
     initWhatsApp();
-    renderProducts('alimentos');
+    loadProductsFromSupabase();
     initTabs();
     initSensors();
 });
@@ -73,6 +76,64 @@ function animateSensorUpdate(el) {
     }, 500);
 }
 
+async function loadProductsFromSupabase() {
+    if (!supabase) {
+        console.log('Supabase not configured, loading static products');
+        // Load static fallback
+        const { products: staticProducts } = await import('./data/products.js');
+        products = staticProducts.map(p => ({
+            id: p.id,
+            nombre: p.name,
+            categoria: p.category,
+            descripcion: p.description,
+            precio: p.price,
+            stock: 0,
+            imagen_url: p.img
+        }));
+        productsLoaded = true;
+        renderProducts('alimentos');
+        return;
+    }
+    
+    const { data, error } = await supabase
+        .from('productos')
+        .select('*')
+        .order('id', { ascending: true });
+    
+    if (error) {
+        console.error('Error loading products:', error);
+        catalogGrid.innerHTML = '<p>Error cargando productos. Intenta más tarde.</p>';
+        return;
+    }
+    
+    if (data && data.length > 0) {
+        products = data;
+    } else {
+        // Fallback to static if table is empty
+        const { products: staticProducts } = await import('./data/products.js');
+        products = staticProducts.map(p => ({
+            id: p.id,
+            nombre: p.name,
+            categoria: p.category,
+            descripcion: p.description,
+            precio: p.price,
+            stock: 0,
+            imagen_url: p.img
+        }));
+    }
+    
+    productsLoaded = true;
+    renderProducts('alimentos');
+    
+    // Subscribe to real-time updates
+    supabase
+        .channel('public:productos')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'productos' }, payload => {
+            loadProductsFromSupabase();
+        })
+        .subscribe();
+}
+
 function initWhatsApp() {
     if (whatsappBtn) {
         whatsappBtn.href = WHATSAPP_URL;
@@ -93,14 +154,14 @@ function getCategoryLabel(category) {
 }
 
 function createProductCard(product) {
-    const categoryLabel = getCategoryLabel(product.category);
+    const categoryLabel = getCategoryLabel(product.categoria);
     
     const card = document.createElement('div');
     card.className = 'product-card';
     
     const img = document.createElement('div');
     img.className = 'product-img';
-    img.style.backgroundImage = `url('${escapeHtml(product.img)}')`;
+    img.style.backgroundImage = `url('${escapeHtml(product.imagen_url)}')`;
     
     const info = document.createElement('div');
     info.className = 'product-info';
@@ -111,14 +172,14 @@ function createProductCard(product) {
     
     const name = document.createElement('h3');
     name.className = 'product-name';
-    name.textContent = product.name;
+    name.textContent = product.nombre;
     
     const description = document.createElement('p');
-    description.textContent = product.description;
+    description.textContent = product.descripcion;
     
     const price = document.createElement('div');
     price.className = 'product-price';
-    price.textContent = product.price;
+    price.textContent = product.precio;
     
     info.appendChild(category);
     info.appendChild(name);
@@ -133,8 +194,12 @@ function createProductCard(product) {
 
 function renderProducts(category) {
     if (!catalogGrid) return;
+    if (!productsLoaded) {
+        catalogGrid.innerHTML = '<p>Cargando productos...</p>';
+        return;
+    }
 
-    const filteredProducts = products.filter(p => p.category === category);
+    const filteredProducts = products.filter(p => p.categoria === category);
     catalogGrid.innerHTML = '';
     
     filteredProducts.forEach(product => {
