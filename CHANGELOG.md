@@ -2,6 +2,21 @@
 
 Todas las modificaciones notables a este proyecto serán documentadas en este archivo.
 
+## [0.1.2] - 2026-03-21
+
+### Mejorado
+- **Gestión de Productos (Admin)**: Creado `admin.html` para que Enrique gestione el catálogo desde el celular. CRUD completo conectado a Supabase.
+- **Productos Dinámicos**: `index.html` ahora lee productos desde la tabla `productos` en Supabase con actualizaciones en tiempo real.
+- **UI/UX Botón**: Cambiado texto de "Consultar Catálogo" a "Ver Catálogo" con fuente más grande (1.5rem) y posición ajustada.
+- **Pilar Tecnológico**: Agregado bloque agro-monitor con simulación de datos de suelo mientras se conecta el hardware.
+- **QR Actualizado**: Nuevo QR apuntando a Netlify con color verde bosque (#1b5e20) y alta corrección de errores.
+- **Optimización de Imágenes**: Reemplazadas imágenes pesadas en `/public` por versiones más ligeras.
+
+### Corregido
+- **Seguridad Admin**: Agregada pantalla de login a `admin.html`. Ahora requiere contraseña para acceder al panel de gestión de productos. El contenido admin está oculto hasta autenticación exitosa.
+- **Separación de Capas**: Eliminado script inline de `index.html`. Lógica de agro-monitor movida a `main.js` con función `initAgroMonitor()`.
+- **Hardcode API**: Corregido valor "65%" hardcodeado. Ahora usa `data.humedad` y `data.estado` reales del endpoint `/api/status`.
+
 ## [0.1.1] - 2026-03-20
 
 ### Mejorado
@@ -14,14 +29,12 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 - **Limpieza**: Eliminación de código muerto (CSS no usado, scripts de prueba y archivos temporales/borradores).
 
 ### Corregido
-- **Separación de Capas**: Eliminado script inline de `index.html` que rompía la separación de concerns. Movida la lógica de agro-monitor a `main.js` con función `initAgroMonitor()`.
-- **Hardcode API**: Corregido valor "65%" hardcodeado que ignoraba la respuesta del API. Ahora usa `data.humedad` y `data.estado` reales del endpoint `/api/status`. No existe en HTML ni JS, era código sin funcionalidad que aumentaba el peso del CSS.
-- **CSS DRY**: Eliminación de `@keyframes fadeIn` duplicado. Aparecía en líneas 121 y 314 con idénticos valores, generando código repetido sin funcionalidad adicional.
+- **CSS DRY**: Eliminación de `@keyframes fadeIn` duplicado. Aparecía en líneas 121 y 314 con idénticos valores.
+- **CSS DRY**: Eliminación de bloques `.hero` y `.hero::after` duplicados. Código repetido en líneas ~90-110 y ~115-135.
+- **CSS Muerto**: Eliminadas clases no utilizadas `.sensor-card`, `.sensor-label`, `.sensor-status`, `.status-optimal`, `.glitch-title`.
 - **Dependencias**: Movido `qrcode` de `dependencies` a `devDependencies` ya que se usa solo en cliente via Vite, no en servidor Node.
-- **CSS Muerto**: Eliminadas clases no utilizadas `.sensor-card`, `.sensor-label`, `.sensor-status`, `.status-optimal` que aumentaban el peso del CSS sin aportar funcionalidad.
-- **CSS DRY**: Eliminación de bloques `.hero` y `.hero::after` duplicados. El código estaba repetido completamente dos veces (líneas ~90-110 y ~115-135), generando ruido y riesgo de inconsistencia al editar.
-- **Validación de API**: Agregada validación de entrada en POST `/api/sensor`. Antes `name` y `value` se usaban directamente sin verificar, risking UPDATE sin WHERE efectivo. Ahora valida que `name` sea string no vacío y `value` sea número válido antes de tocar la base de datos.
-- **Seguridad XSS**: Eliminación de interpolación directa en innerHTML. El patrón anterior `catalogGrid.innerHTML = filtered.map(p => \`<h3>${p.name}</h3>\`)` era vulnerable si los productos provinieran de fuentes externas. Implementado DOM manipulation seguro con `textContent` para datos textuales y `escapeHtml()` para URLs, previniendo ataques de inyección de código.
+- **Validación de API**: Agregada validación de entrada en POST `/api/sensor`. Antes `name` y `value` se usaban directamente sin verificar.
+- **Seguridad XSS**: Eliminación de interpolación directa en innerHTML. Implementado DOM manipulation seguro con `textContent` y `escapeHtml()`.
 - **Sincronización de Variables**: Refactorizado `supabase.js` para soportar nombres estándar de Node.js (`SUPABASE_URL`) en local y prefijos de Vite (`VITE_`) en la nube.
 - **Bug de Entorno**: Corregido error en `supabase.js` que causaba fallos al ejecutar el servidor en entornos Node.js.
 - **Higiene DB**: Eliminación de tablas redundantes y activación de Realtime en el entorno de producción.

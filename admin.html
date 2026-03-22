@@ -117,6 +117,44 @@
             color: white;
         }
         
+        /* LOGIN SCREEN */
+        .login-screen {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .login-screen h2 {
+            color: #1b5e20;
+            margin-bottom: 1rem;
+        }
+        
+        .login-screen p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .logout-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
         .actions {
             display: flex;
             gap: 0.5rem;
@@ -236,9 +274,29 @@
     <h1>🌿 Nodo Nueva Troya</h1>
     <p class="subtitle">Gestión de Productos - Admin</p>
     
-    <div id="message"></div>
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="login-screen">
+        <h2>🔒 Acceso Protegido</h2>
+        <p>Esta área es solo para administradores del nodo.</p>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="admin-password">Contraseña</label>
+                <input type="password" id="admin-password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: #999;">
+            💡 Pista: La contraseña está en el grupo de WhatsApp de coordinación
+        </p>
+    </div>
     
-    <div class="form-section">
+    <!-- PROTECTED ADMIN CONTENT -->
+    <div id="admin-content" class="hidden">
+        <button id="logout-btn" class="logout-btn">Cerrar Sesión</button>
+        
+        <div id="message"></div>
+        
+        <div class="form-section">
         <h2 id="form-title">📦 Nuevo Producto</h2>
         
         <form id="product-form">
@@ -454,6 +512,69 @@
         
         // Actualizar cada 30 segundos
         setInterval(loadProducts, 30000);
+    </script>
+    
+    </div> <!-- /admin-content -->
+    
+    <!-- AUTHENTICATION SCRIPT -->
+    <script>
+        // Simple password protection
+        // NOTE: This is basic client-side protection. For production, use Supabase Auth.
+        const ADMIN_PASSWORD_HASH = '5f4dcc3b5aa765d61d8327deb882cf99'; // 'password' hashed - CHANGE THIS!
+        
+        const loginScreen = document.getElementById('login-screen');
+        const adminContent = document.getElementById('admin-content');
+        const loginForm = document.getElementById('login-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        const passwordInput = document.getElementById('admin-password');
+        
+        // Check if already logged in
+        function checkAuth() {
+            if (sessionStorage.getItem('adminAuthenticated') === 'true') {
+                showAdmin();
+            }
+        }
+        
+        function showAdmin() {
+            loginScreen.classList.add('hidden');
+            adminContent.classList.remove('hidden');
+        }
+        
+        function hideAdmin() {
+            loginScreen.classList.remove('hidden');
+            adminContent.classList.add('hidden');
+            sessionStorage.removeItem('adminAuthenticated');
+        }
+        
+        // Simple hash function (for demo - use bcrypt in production)
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('MD5', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = passwordInput.value;
+            const hashed = await hashPassword(password);
+            
+            if (hashed === ADMIN_PASSWORD_HASH) {
+                sessionStorage.setItem('adminAuthenticated', 'true');
+                showAdmin();
+                passwordInput.value = '';
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        });
+        
+        logoutBtn.addEventListener('click', () => {
+            hideAdmin();
+        });
+        
+        // Check auth on load
+        checkAuth();
     </script>
 </body>
 </html>
