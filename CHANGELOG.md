@@ -14,7 +14,8 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 - **Limpieza**: Eliminación de código muerto (CSS no usado, scripts de prueba y archivos temporales/borradores).
 
 ### Corregido
-- **CSS Muerto**: Eliminada clase `.glitch-title` del media query. No existe en HTML ni JS, era código sin funcionalidad que aumentaba el peso del CSS.
+- **Separación de Capas**: Eliminado script inline de `index.html` que rompía la separación de concerns. Movida la lógica de agro-monitor a `main.js` con función `initAgroMonitor()`.
+- **Hardcode API**: Corregido valor "65%" hardcodeado que ignoraba la respuesta del API. Ahora usa `data.humedad` y `data.estado` reales del endpoint `/api/status`. No existe en HTML ni JS, era código sin funcionalidad que aumentaba el peso del CSS.
 - **CSS DRY**: Eliminación de `@keyframes fadeIn` duplicado. Aparecía en líneas 121 y 314 con idénticos valores, generando código repetido sin funcionalidad adicional.
 - **Dependencias**: Movido `qrcode` de `dependencies` a `devDependencies` ya que se usa solo en cliente via Vite, no en servidor Node.
 - **CSS Muerto**: Eliminadas clases no utilizadas `.sensor-card`, `.sensor-label`, `.sensor-status`, `.status-optimal` que aumentaban el peso del CSS sin aportar funcionalidad.

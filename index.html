@@ -28,16 +28,6 @@
                 <p>Estado de Cultivo: <span id="status-val">Esperando datos...</span></p>
             </section>
 
-            <script>
-                // Simulación mientras no hay sensor conectado
-                fetch('/api/status')
-                    .then(res => res.json())
-                    .then(data => {
-                        document.getElementById('humedad-val').innerText = "65%";
-                        document.getElementById('status-val').innerText = "Óptimo (Simulado)";
-                    });
-            </script>
-
             <section class="catalogo-rapido">
                 <a id="whatsapp-link" href="#" class="btn btn-primary btn-whatsapp">Ver Catálogo</a>
             </section>

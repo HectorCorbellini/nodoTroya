@@ -32,7 +32,32 @@ document.addEventListener('DOMContentLoaded', () => {
     loadProductsFromSupabase();
     initTabs();
     initSensors();
+    initAgroMonitor();
 });
+
+async function initAgroMonitor() {
+    const humedadEl = document.getElementById('humedad-val');
+    const statusEl = document.getElementById('status-val');
+    
+    if (!humedadEl || !statusEl) return;
+    
+    try {
+        const response = await fetch('/api/status');
+        const data = await response.json();
+        
+        // Use actual API data instead of hardcoded values
+        if (data.humedad) {
+            humedadEl.innerText = data.humedad;
+        }
+        
+        if (data.estado) {
+            statusEl.innerText = data.estado;
+        }
+    } catch (err) {
+        console.log('API status fetch failed, using defaults:', err);
+        // Keep default placeholder values
+    }
+}
 
 async function initSensors() {
     const sensorValueEl = document.querySelector('.sensor-value');
