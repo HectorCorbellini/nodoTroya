@@ -14,6 +14,7 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 
 ### Corregido
 - **Seguridad Admin**: Agregada pantalla de login a `admin.html`. Ahora requiere contraseña para acceder al panel de gestión de productos. El contenido admin está oculto hasta autenticación exitosa.
+- **Hash de Contraseña**: Actualizado de MD5 (obsoleto) a SHA-256 para mejor seguridad. SHA-256 está disponible en todos los navegadores modernos.
 - **Separación de Capas**: Eliminado script inline de `index.html`. Lógica de agro-monitor movida a `main.js` con función `initAgroMonitor()`.
 - **Hardcode API**: Corregido valor "65%" hardcodeado. Ahora usa `data.humedad` y `data.estado` reales del endpoint `/api/status`.
 
