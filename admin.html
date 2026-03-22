@@ -520,7 +520,7 @@
     <script>
         // Simple password protection
         // NOTE: This is basic client-side protection. For production, use Supabase Auth.
-        const ADMIN_PASSWORD_HASH = '5f4dcc3b5aa765d61d8327deb882cf99'; // 'password' hashed - CHANGE THIS!
+        const ADMIN_PASSWORD_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'; // 'password' hashed with SHA-256 - CHANGE THIS!
         
         const loginScreen = document.getElementById('login-screen');
         const adminContent = document.getElementById('admin-content');
@@ -546,11 +546,11 @@
             sessionStorage.removeItem('adminAuthenticated');
         }
         
-        // Simple hash function (for demo - use bcrypt in production)
+        // Better hash function using SHA-256
         async function hashPassword(password) {
             const encoder = new TextEncoder();
             const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('MD5', data);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
