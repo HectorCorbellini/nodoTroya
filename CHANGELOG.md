@@ -13,6 +13,7 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 - **Optimización de Imágenes**: Reemplazadas imágenes pesadas en `/public` por versiones más ligeras.
 
 ### Corregido
+- **Separación de Estilos**: Eliminados estilos inline de `#agro-monitor` en `index.html`. Movidos a `style.css` para mantener separación de concerns.
 - **Seguridad Admin**: Agregada pantalla de login a `admin.html`. Ahora requiere contraseña para acceder al panel de gestión de productos. El contenido admin está oculto hasta autenticación exitosa.
 - **Hash de Contraseña**: Actualizado de MD5 (obsoleto) a SHA-256 para mejor seguridad. SHA-256 está disponible en todos los navegadores modernos.
 - **Separación de Capas**: Eliminado script inline de `index.html`. Lógica de agro-monitor movida a `main.js` con función `initAgroMonitor()`.

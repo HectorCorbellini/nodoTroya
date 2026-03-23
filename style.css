@@ -79,6 +79,19 @@ body {
     align-items: center;
 }
 
+#agro-monitor {
+    border: 1px solid #2ecc71;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    background: rgba(255,255,255,0.1);
+}
+
+#agro-monitor h3 {
+    color: #2ecc71;
+    margin-top: 0;
+}
+
 .btn-whatsapp {
     background: #25d366 !important;
     color: white !important;
