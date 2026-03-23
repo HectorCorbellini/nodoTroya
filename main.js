@@ -213,8 +213,8 @@ function createProductCard(product) {
     info.appendChild(description);
     info.appendChild(price);
     
-    // Add honest badge for "Jugos de Transición"
-    if (product.nombre === 'Jugos de Transición' && product.honest_label) {
+    // Add honest badge if product has honest_label
+    if (product.honest_label) {
         const badge = document.createElement('button');
         badge.className = 'honest-badge';
         badge.textContent = '📋 Ficha de Honestidad';
