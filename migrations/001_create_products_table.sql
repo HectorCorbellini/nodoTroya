@@ -1,9 +1,9 @@
 -- Migration: Create productos table in Supabase (español)
 -- Run this in Supabase SQL Editor
 
--- Create productos table with UUID primary key
+-- Create productos table with INTEGER primary key (matches static data)
 CREATE TABLE IF NOT EXISTS productos (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id INTEGER PRIMARY KEY,
     nombre TEXT NOT NULL,
     categoria TEXT NOT NULL,
     descripcion TEXT,
