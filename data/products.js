@@ -1,11 +1,11 @@
 export const products = [
     {
         id: 1,
-        name: 'Jugos Naturales',
+        name: 'Jugos de Transición',
         category: 'alimentos',
         price: 'Consultar Catálogo',
         img: 'images/muestra_Jugos.png',
-        description: 'Prensado en frío, origen natural y selección de estación.'
+        description: 'Opción saludable de transición. Calidad superior a la media industrial; camino hacia la soberanía agroecológica.'
     },
     {
         id: 2,
