@@ -113,7 +113,8 @@ async function loadProductsFromSupabase() {
             descripcion: p.description,
             precio: p.price,
             stock: 0,
-            imagen_url: p.img
+            imagen_url: p.img,
+            honest_label: p.description
         }));
         productsLoaded = true;
         renderProducts('alimentos');
@@ -121,7 +122,7 @@ async function loadProductsFromSupabase() {
     }
     
     const { data, error } = await supabase
-        .from('productos')
+        .from('products')
         .select('*')
         .order('id', { ascending: true });
     
@@ -152,8 +153,8 @@ async function loadProductsFromSupabase() {
     
     // Subscribe to real-time updates
     supabase
-        .channel('public:productos')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'productos' }, payload => {
+        .channel('public:products')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, payload => {
             loadProductsFromSupabase();
         })
         .subscribe();
@@ -210,6 +211,18 @@ function createProductCard(product) {
     info.appendChild(name);
     info.appendChild(description);
     info.appendChild(price);
+    
+    // Add honest badge for "Jugos de Transición"
+    if (product.nombre === 'Jugos de Transición' && product.honest_label) {
+        const badge = document.createElement('button');
+        badge.className = 'honest-badge';
+        badge.textContent = '📋 Ficha de Honestidad';
+        badge.addEventListener('click', (e) => {
+            e.stopPropagation();
+            alert(product.honest_label);
+        });
+        info.appendChild(badge);
+    }
     
     card.appendChild(img);
     card.appendChild(info);
