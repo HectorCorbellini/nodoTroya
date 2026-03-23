@@ -122,7 +122,7 @@ async function loadProductsFromSupabase() {
     }
     
     const { data, error } = await supabase
-        .from('products')
+        .from('productos')
         .select('*')
         .order('id', { ascending: true });
     
@@ -144,7 +144,8 @@ async function loadProductsFromSupabase() {
             descripcion: p.description,
             precio: p.price,
             stock: 0,
-            imagen_url: p.img
+            imagen_url: p.img,
+            honest_label: p.description
         }));
     }
     
@@ -153,8 +154,8 @@ async function loadProductsFromSupabase() {
     
     // Subscribe to real-time updates
     supabase
-        .channel('public:products')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, payload => {
+        .channel('public:productos')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'productos' }, payload => {
             loadProductsFromSupabase();
         })
         .subscribe();

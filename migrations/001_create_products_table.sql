@@ -1,26 +1,29 @@
--- Migration: Create products table in Supabase
+-- Migration: Create productos table in Supabase (español)
 -- Run this in Supabase SQL Editor
 
--- Create products table with UUID primary key
-CREATE TABLE IF NOT EXISTS products (
+-- Create productos table with UUID primary key
+CREATE TABLE IF NOT EXISTS productos (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name TEXT NOT NULL,
-    category TEXT NOT NULL,
+    nombre TEXT NOT NULL,
+    categoria TEXT NOT NULL,
+    descripcion TEXT,
+    precio TEXT,
     stock INTEGER DEFAULT 0,
+    imagen_url TEXT,
     honest_label TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Enable Row Level Security
-ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE productos ENABLE ROW LEVEL SECURITY;
 
--- Create policy: Anyone can read products
-CREATE POLICY "products_read_policy" ON products
+-- Create policy: Anyone can read productos
+CREATE POLICY "productos_read_policy" ON productos
     FOR SELECT USING (true);
 
 -- Create policy: Only authenticated users can insert/update/delete
-CREATE POLICY "products_write_policy" ON products
+CREATE POLICY "productos_write_policy" ON productos
     FOR ALL USING (auth.role() = 'authenticated');
 
 -- Add updated_at trigger for automatic timestamps
@@ -32,10 +35,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_products_updated_at
-    BEFORE UPDATE ON products
+CREATE TRIGGER update_productos_updated_at
+    BEFORE UPDATE ON productos
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
--- Optional: Create index on category for faster queries
-CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
+-- Create index on categoria for faster queries
+CREATE INDEX IF NOT EXISTS idx_productos_categoria ON productos(categoria);

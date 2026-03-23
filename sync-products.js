@@ -40,17 +40,20 @@ async function syncProducts() {
 
     const productsToSync = products.map(p => ({
         id: p.id,
-        name: p.name,
-        category: p.category,
+        nombre: p.name,
+        categoria: p.category,
+        descripcion: p.description,
+        precio: p.price,
         stock: p.stock || 0,
+        imagen_url: p.img,
         honest_label: p.description
     }));
 
     console.log(`📦 Productos a sincronizar: ${productsToSync.length}`);
-    productsToSync.forEach(p => console.log(`  - ${p.name} (${p.category})`));
+    productsToSync.forEach(p => console.log(`  - ${p.nombre} (${p.categoria})`));
 
     const { data, error } = await supabase
-        .from('products')
+        .from('productos')
         .upsert(productsToSync, { onConflict: 'id' })
         .select();
 
@@ -62,13 +65,13 @@ async function syncProducts() {
     console.log(`\n✅ ${data.length} productos sincronizados exitosamente`);
     
     const { data: allProducts } = await supabase
-        .from('products')
+        .from('productos')
         .select('*')
         .order('id');
     
     console.log('\n📋 Productos en base de datos:');
     allProducts.forEach(p => {
-        console.log(`  [${p.id}] ${p.name} - Stock: ${p.stock}`);
+        console.log(`  [${p.id}] ${p.nombre} - Stock: ${p.stock}`);
     });
 }
 
@@ -76,7 +79,7 @@ async function updateStock(id, stock) {
     console.log(`🔄 Actualizando stock del producto id:${id} a ${stock}...\n`);
 
     const { data, error } = await supabase
-        .from('products')
+        .from('productos')
         .update({ stock })
         .eq('id', id)
         .select();
@@ -87,7 +90,7 @@ async function updateStock(id, stock) {
     }
 
     console.log('✅ Stock actualizado:');
-    console.log(`  [${data[0].id}] ${data[0].name} - Stock: ${data[0].stock}`);
+    console.log(`  [${data[0].id}] ${data[0].nombre} - Stock: ${data[0].stock}`);
 }
 
 async function main() {
