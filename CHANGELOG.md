@@ -5,7 +5,7 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 ## [0.1.2] - 2026-03-21
 
 ### Mejorado
-- **Productos desde Supabase**: Renderizado ahora lee desde tabla `products` en Supabase (antes `productos`). Soporta campo `honest_label`.
+- **Consistencia de Esquema**: Unificado esquema de base de datos a español (`productos` con campos `nombre`, `categoria`, `descripcion`, `precio`, `imagen_url`, `stock`, `honest_label`). Todos los archivos (migration, sync-products.js, admin.html, main.js) ahora usan el mismo esquema.
 - **Badge de Honestidad**: Agregado botón "📋 Ficha de Honestidad" para producto "Jugos de Transición". Al hacer clic muestra la descripción honesta en alert.
 - **Infraestructura de Sincronización**: Creado script de migración SQL y `sync-products.js` para sincronizar productos con Supabase. Soporta upsert y actualización de stock via CLI (`node sync-products.js --id 1 --stock 20`).
 - **Gestión de Productos (Admin)**: Creado `admin.html` para que Enrique gestione el catálogo desde el celular. CRUD completo conectado a Supabase.
