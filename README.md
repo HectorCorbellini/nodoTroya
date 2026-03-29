@@ -1,3 +1,28 @@
+> **🇬🇧 English Summary** | [Spanish full documentation below](#nodo-nueva-troya---plataforma-técnica)
+>
+> **NODO NUEVA TROYA** is a community marketplace platform for a local neighborhood network in Montevideo, Uruguay.
+> It uses a hybrid cloud-local architecture: a static frontend on Netlify, a real-time Supabase database, and a local Node.js orchestrator
+> that collects physical sensor data and pushes it to the cloud.
+>
+> **Stack**: Vanilla JS · Vite · Supabase · Netlify · Node.js · QR code generation
+
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    A[👥 Neighbor / Client
+scans QR code] -->|HTTPS| B[Netlify Frontend
+Static Site, always online]
+    B <-->|Real-time sync| C[(Supabase Cloud
+Database + Realtime)]
+    D[🖥️ HP EliteBook
+Local Orchestrator
+node server.js] -->|Push sensor data| C
+    D -->|Serves dev catalog| B
+```
+
+---
+
 # NODO NUEVA TROYA - Plataforma Técnica
 
 ## 🌿 Concepto Operativo
