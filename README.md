@@ -115,3 +115,5 @@ Para correr el sitio y recibir datos de sensores desde la HP EliteBook:
 
 ---
 **Nodo Nueva Troya** - *Soberanía Alimentaria & Tecnología del Futuro*
+---
+> **Powered by [Hector's Repo Standards](https://github.com/HectorCorbellini/hector-repo-standard)**
