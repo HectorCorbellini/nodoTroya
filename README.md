@@ -1,3 +1,5 @@
+![Node.js CI](https://github.com/HectorCorbellini/nodoTroya/actions/workflows/node.js.yml/badge.svg)
+
 > **🇬🇧 English Summary** | [Spanish full documentation below](#nodo-nueva-troya---plataforma-técnica)
 >
 > **NODO NUEVA TROYA** is a community marketplace platform for a local neighborhood network in Montevideo, Uruguay.
